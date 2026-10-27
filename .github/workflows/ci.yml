@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - run: pip install -e ".[dev]"
+      - run: pytest
+
+  # The gate itself is tested against known answers:
+  # reference outputs must pass, outputs with injected LLM mistakes must be blocked.
+  gate-selftest:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install .
+      - name: Dataset is reproducible from the generator
+        run: |
+          python examples/schedule/generate.py
+          git diff --exit-code examples/schedule/
+      - name: Reference outputs pass
+        run: llm-eval-gate run examples/schedule/eval.yaml --outputs examples/schedule/fixtures/reference_outputs.jsonl --no-baseline
+      - name: Broken outputs are blocked (expects exit 1)
+        run: |
+          set +e
+          llm-eval-gate run examples/schedule/eval.yaml --outputs examples/schedule/fixtures/broken_outputs.jsonl \
+            --no-baseline --md-out gate-selftest.md
+          code=$?
+          set -e
+          cat gate-selftest.md >> "$GITHUB_STEP_SUMMARY"
+          test "$code" -eq 1
+
+  # Real model results, replayed from the committed cache (no API key needed).
+  # A prompt or model change without re-recording fails here on purpose (cache miss, exit 3).
+  eval-replay:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install .
+      - name: Replay recorded Gemini responses through the gate
+        run: |
+          if [ ! -d examples/schedule/cache ]; then
+            echo "No recorded responses yet. Run the 'Record eval' workflow once." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          llm-eval-gate run examples/schedule/eval.yaml --mode replay --md-out eval.md || code=$?
+          cat eval.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
+          exit ${code:-0}

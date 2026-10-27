@@ -1,0 +1,53 @@
+# Appointment extraction from Telegram conversations.
+#
+# Why these thresholds:
+#   A wrong event on someone's calendar (wrong day, a cancelled or never-agreed plan)
+#   costs more than a missed one, which the user can still add by hand.
+#   So precision and "stay empty when nothing was agreed" block the gate (error),
+#   while recall is watched as a warning.
+version: 1
+
+task:
+  name: telegram-appointments
+  dataset: cases.jsonl
+  system: system.txt
+  prompt: prompt.txt
+  output_schema: schema.json
+
+provider:
+  type: gemini
+  model: gemini-3.5-flash-lite   # free tier; change freely, the cache key includes the model
+  temperature: 0
+  rpm: 10                        # stay under the free-tier per-minute limit
+  cache_dir: cache               # commit this folder so CI can run with --mode replay
+
+metrics:
+  - name: json_valid
+    type: json_valid_rate
+    min: 0.98
+
+  - name: schema_valid
+    type: schema_valid_rate
+    min: 0.95
+
+  - name: event_precision        # of the events we would add, how many are right
+    type: set_precision
+    path: events
+    keys: [date, start_time]
+    min: 0.90
+
+  - name: no_false_plans         # nothing agreed -> nothing added
+    type: empty_when_expected_rate
+    path: events
+    min: 0.90
+
+  - name: event_recall           # of the agreed events, how many we found
+    type: set_recall
+    path: events
+    keys: [date, start_time]
+    min: 0.80
+    severity: warn
+
+gate:
+  baseline: baseline.json        # created with --update-baseline after a run you accept
+  max_regression: 0.03

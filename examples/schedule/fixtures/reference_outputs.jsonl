@@ -1,0 +1,40 @@
+{"id": "s001", "output": {"events": [{"title": "도윤과 점심", "date": "2026-11-15", "start_time": null, "location": "강남역"}]}}
+{"id": "s002", "output": {"events": [{"title": "하은과 스터디", "date": "2026-11-19", "start_time": "13:00", "location": "신촌 스터디카페"}]}}
+{"id": "s003", "output": {"events": [{"title": "서연과 커피", "date": "2026-11-01", "start_time": "15:00", "location": "강남역"}]}}
+{"id": "s004", "output": {"events": [{"title": "수빈과 스터디", "date": "2026-11-18", "start_time": "15:30", "location": "판교역"}]}}
+{"id": "s005", "output": {"events": [{"title": "민지와 커피", "date": "2026-10-30", "start_time": "16:00", "location": "판교역"}]}}
+{"id": "s006", "output": {"events": [{"title": "하은과 영화", "date": "2026-11-19", "start_time": "20:30", "location": "강남역"}]}}
+{"id": "s007", "output": {"events": [{"title": "준호와 스터디", "date": "2026-11-02", "start_time": "15:30", "location": "신촌 스터디카페"}]}}
+{"id": "s008", "output": {"events": [{"title": "도윤과 스터디", "date": "2026-11-09", "start_time": "13:00", "location": "신촌 스터디카페"}]}}
+{"id": "s009", "output": {"events": [{"title": "도윤과 점심", "date": "2026-11-08", "start_time": null, "location": "강남역"}]}}
+{"id": "s010", "output": {"events": [{"title": "지훈과 스터디", "date": "2026-11-01", "start_time": "10:30", "location": "판교역"}]}}
+{"id": "s011", "output": {"events": [{"title": "하은과 스터디", "date": "2026-11-11", "start_time": "19:00", "location": "판교역"}]}}
+{"id": "s012", "output": {"events": [{"title": "수빈과 영화", "date": "2026-11-08", "start_time": "20:00", "location": "강남역"}]}}
+{"id": "s013", "output": {"events": [{"title": "예린과 커피", "date": "2026-11-07", "start_time": "16:00", "location": "성수동 카페"}]}}
+{"id": "s014", "output": {"events": [{"title": "하은과 영화", "date": "2026-11-10", "start_time": "16:30", "location": "홍대입구역"}]}}
+{"id": "s015", "output": {"events": [{"title": "하은과 커피", "date": "2026-11-12", "start_time": "15:30", "location": "판교역"}]}}
+{"id": "s016", "output": {"events": [{"title": "민지와 저녁", "date": "2026-11-21", "start_time": null, "location": "합정역 2번 출구"}]}}
+{"id": "s017", "output": {"events": [{"title": "현우와 커피", "date": "2026-11-01", "start_time": "15:00", "location": "강남역"}]}}
+{"id": "s018", "output": {"events": [{"title": "서연과 스터디", "date": "2026-11-21", "start_time": "15:30", "location": "신촌 스터디카페"}]}}
+{"id": "s019", "output": {"events": [{"title": "도윤과 점심", "date": "2026-11-07", "start_time": "12:00", "location": "판교역"}]}}
+{"id": "s020", "output": {"events": [{"title": "지훈과 영화", "date": "2026-11-06", "start_time": "16:00", "location": "강남역"}]}}
+{"id": "s021", "output": {"events": [{"title": "도윤과 영화", "date": "2026-11-08", "start_time": "21:00", "location": "강남역"}]}}
+{"id": "s022", "output": {"events": [{"title": "수빈과 커피", "date": "2026-11-07", "start_time": "15:30", "location": "강남역"}]}}
+{"id": "s023", "output": {"events": [{"title": "지훈과 저녁", "date": "2026-11-01", "start_time": "18:00", "location": "을지로3가역"}]}}
+{"id": "s024", "output": {"events": [{"title": "태민과 스터디", "date": "2026-10-30", "start_time": "10:00", "location": "판교역"}]}}
+{"id": "s025", "output": {"events": [{"title": "현우와 점심", "date": "2026-11-19", "start_time": "15:00", "location": "성수동 카페"}]}}
+{"id": "s026", "output": {"events": []}}
+{"id": "s027", "output": {"events": []}}
+{"id": "s028", "output": {"events": []}}
+{"id": "s029", "output": {"events": []}}
+{"id": "s030", "output": {"events": []}}
+{"id": "s031", "output": {"events": []}}
+{"id": "s032", "output": {"events": []}}
+{"id": "s033", "output": {"events": []}}
+{"id": "s034", "output": {"events": []}}
+{"id": "s035", "output": {"events": []}}
+{"id": "s036", "output": {"events": []}}
+{"id": "s037", "output": {"events": []}}
+{"id": "s038", "output": {"events": [{"title": "민지와 영화", "date": "2026-11-10", "start_time": "20:00", "location": "강남역"}, {"title": "민지와 영화", "date": "2026-11-14", "start_time": "14:30", "location": "잠실 롯데월드몰"}]}}
+{"id": "s039", "output": {"events": [{"title": "준호와 저녁", "date": "2026-11-12", "start_time": "19:00", "location": "강남역"}]}}
+{"id": "s040", "output": {"events": [{"title": "서연, 예린과 영화", "date": "2026-11-03", "start_time": "14:00", "location": "홍대입구역"}]}}

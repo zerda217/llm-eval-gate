@@ -1,0 +1,65 @@
+name: Record eval
+
+# Runs the eval against the real Gemini API and commits the responses to the cache,
+# so CI can replay them without a key. Start it from the Actions tab (works on mobile):
+# Actions -> Record eval -> Run workflow -> pick the branch.
+# Needs a repository secret GEMINI_API_KEY (Settings -> Secrets and variables -> Actions).
+
+on:
+  workflow_dispatch:
+    inputs:
+      update_baseline:
+        description: "Save this run's scores as the new baseline"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: record-eval-${{ github.ref }}
+
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install .
+
+      - name: Evaluate with Gemini (only cache misses call the API)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          args="--mode cached --md-out eval.md --json-out eval.json"
+          if [ "${{ inputs.update_baseline }}" = "true" ]; then args="$args --update-baseline"; fi
+          llm-eval-gate run examples/schedule/eval.yaml $args || code=$?
+          cat eval.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
+          echo "GATE_EXIT=${code:-0}" >> "$GITHUB_ENV"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eval-report
+          path: eval.json
+          if-no-files-found: ignore
+
+      - name: Commit recorded responses
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add examples/schedule/cache examples/schedule/baseline.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "Nothing new to commit."
+          else
+            git commit -m "Record eval responses (${GITHUB_SHA::7})"
+            git push
+          fi
+
+      - name: Gate result
+        run: |
+          echo "gate exit code: $GATE_EXIT"
+          exit "$GATE_EXIT"
