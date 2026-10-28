@@ -3,7 +3,8 @@ name: Record eval
 # Runs the eval against the real Gemini API and commits the responses to the cache,
 # so CI can replay them without a key. Start it from the Actions tab (works on mobile):
 # Actions -> Record eval -> Run workflow -> pick the branch.
-# Needs a repository secret GEMINI_API_KEY (Settings -> Secrets and variables -> Actions).
+# Optional: needs a repository secret GEMINI_API_KEY. To keep the key out of GitHub,
+# use notebooks/run_eval.ipynb in Colab instead and commit the resulting cache.
 
 on:
   workflow_dispatch:

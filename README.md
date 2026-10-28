@@ -62,11 +62,15 @@ llm-eval-gate run examples/schedule/eval.yaml
 
 ### 휴대폰에서 실제 모델 평가 돌리기
 
-로컬 환경 없이 GitHub만으로 됩니다.
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zerda217/llm-eval-gate/blob/main/notebooks/run_eval.ipynb)
 
-1. 저장소 Settings → Secrets and variables → Actions에 `GEMINI_API_KEY`를 등록합니다
-2. Actions 탭 → **Record eval** → Run workflow를 누릅니다. 결과를 기준선으로 삼으려면 `update_baseline`을 체크합니다
-3. 워크플로가 Gemini 응답을 `examples/schedule/cache/`에 커밋합니다. 이후 CI는 키 없이 이 응답을 재생해 게이트를 돌립니다
+API 키를 저장소에 두지 않는 방식입니다.
+
+1. 위 배지로 노트북을 열고, Colab 보안 비밀(🔑)에 `GEMINI_API_KEY`를 등록합니다. 키는 본인 Google 계정에만 저장됩니다
+2. 셀을 순서대로 실행하면 실제 Gemini로 평가하고, 응답 캐시를 `eval_results.zip`으로 내려받습니다. 내려받기 전에 키가 들어 있지 않은지 확인합니다
+3. zip 안의 `examples/schedule/cache/`를 저장소에 커밋하면, 이후 CI는 키 없이 이 응답을 재생해 게이트를 돌립니다
+
+평가는 키가 있는 곳에서 한 번만 하고, 검증은 키 없이 몇 번이든 재현합니다. 저장소에 GitHub Secret으로 키를 등록해도 된다면 Actions의 **Record eval** 워크플로로 같은 일을 GitHub 안에서 할 수도 있습니다.
 
 ## 설정
 
